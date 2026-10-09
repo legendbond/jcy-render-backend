@@ -1,0 +1,15 @@
+# Render 部署清单（Web Service，免费计划）
+services:
+  - type: web
+    name: jcy
+    plan: free
+    runtime: python
+    region: singapore
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python jcy_server.py"
+    envVars:
+      - key: BIND
+        value: "0.0.0.0"      # Render 容器必须绑 0.0.0.0 才能对外收请求
+    healthCheckPath: "/api/health"
+    autoDeploy: false
+    # 免费实例 15 分钟无请求会休眠；要常驻可加 cron 保活（见说明）
